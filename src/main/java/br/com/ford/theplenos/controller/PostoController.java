@@ -10,25 +10,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ford.theplenos.controller.exception.RecordNotFoundException;
-import br.com.ford.theplenos.domain.entity.AbastecimentoEntity;
+import br.com.ford.theplenos.domain.entity.PostoEntity;
 import br.com.ford.theplenos.service.dao.BigQueryDao;
 
 @RestController
 @RequestMapping("/v2/fordfuel/")
-public class AbastecimentoController {
+public class PostoController {
 
 	@Autowired
-	private BigQueryDao<AbastecimentoEntity> abastecimentoEntityDao;
+	private BigQueryDao<PostoEntity> postoEntityDao;
 	
-	@GetMapping(value = "/abastecimento")
-	public ResponseEntity<List<AbastecimentoEntity>> findAllCustomer() {
-	    List<AbastecimentoEntity> tiposCombustivel = abastecimentoEntityDao.findAll();
+	@GetMapping(value = "/posto")
+	public ResponseEntity<List<PostoEntity>> findAllCustomer() {
+	    List<PostoEntity> tiposCombustivel = postoEntityDao.findAll();
 	    
 	    if (tiposCombustivel.isEmpty()) {
-	        throw new RecordNotFoundException("Nenhum abastecimento foi encontrado.");
+	        throw new RecordNotFoundException("Nenhum posto foi encontrado.");
 	    }
 	    
-	    return new ResponseEntity<List<AbastecimentoEntity>>(tiposCombustivel, HttpStatus.OK);
+	    return new ResponseEntity<List<PostoEntity>>(tiposCombustivel, HttpStatus.OK);
 	}
 	
 }
