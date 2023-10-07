@@ -32,7 +32,6 @@ public class BigQueryDaoImpl<T> implements BigQueryDao<T> {
 
     private static final Logger logger = LoggerFactory.getLogger(BigQueryDaoImpl.class);
 
-    
     public BigQueryDaoImpl(BigQueryAppProperties properties, Class<T> type) {
         this.properties = properties;
         this.type = type;
