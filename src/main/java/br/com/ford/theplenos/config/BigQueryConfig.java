@@ -10,6 +10,7 @@ import br.com.ford.theplenos.domain.entity.PostoEntity;
 import br.com.ford.theplenos.domain.entity.QualidadeCombustivelEntity;
 import br.com.ford.theplenos.domain.entity.TipoCombustivelEntity;
 import br.com.ford.theplenos.domain.entity.VeiculoEntity;
+import br.com.ford.theplenos.domain.projection.AbastecimentoProjection;
 import br.com.ford.theplenos.service.dao.BigQueryDao;
 import br.com.ford.theplenos.service.dao.BigQueryDaoImpl;
 
@@ -47,5 +48,10 @@ public class BigQueryConfig {
 	@Bean
 	public BigQueryDao<QualidadeCombustivelEntity> qualidadeCombustivelEntityDao() {
 		return new BigQueryDaoImpl<>(properties, QualidadeCombustivelEntity.class);
+	}
+	
+	@Bean
+	public BigQueryDao<AbastecimentoProjection> abastecimentoProjectionEntityDao() {
+		return new BigQueryDaoImpl<>(properties, AbastecimentoProjection.class);
 	}
 }

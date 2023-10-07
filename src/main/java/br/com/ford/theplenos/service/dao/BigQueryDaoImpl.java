@@ -17,6 +17,7 @@ import com.google.cloud.bigquery.QueryJobConfiguration;
 import com.google.cloud.bigquery.TableResult;
 
 import br.com.ford.theplenos.config.BigQueryAppProperties;
+import br.com.ford.theplenos.domain.projection.AbastecimentoProjection;
 import br.com.ford.theplenos.exception.BigQuerySearchException;
 import br.com.ford.theplenos.service.utility.GoogleCredentialsUtility;
 
@@ -24,6 +25,7 @@ public class BigQueryDaoImpl<T> implements BigQueryDao<T> {
 
     private final BigQueryAppProperties properties;
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private static final String SCHEMA_NAME = "ford";
 
     private final Class<T> type;
 
@@ -39,6 +41,47 @@ public class BigQueryDaoImpl<T> implements BigQueryDao<T> {
             .map(json -> objectMapper.convertValue(json, type))
             .collect(Collectors.toList());
     }
+    
+    public List<AbastecimentoProjection> findAllAbastecimentosWithDetails() throws BigQuerySearchException {
+    	StringBuilder queryBuilder = new StringBuilder();
+    	queryBuilder.append("SELECT ")
+		        .append("    Abastecimento.IdAbastecimento AS IdAbastecimento, ")
+		        .append("    Posto.IdPosto AS IdPosto, ")
+		        .append("    Posto.NomePosto AS NomePosto, ")
+		        .append("    Posto.Rua AS Rua, ")
+		        .append("    Posto.Bairro AS Bairro, ")
+		        .append("    Posto.Cidade AS Cidade, ")
+		        .append("    Posto.Estado AS Estado, ")
+		        .append("    Posto.CEP AS CEP, ")
+		        .append("    Veiculo.IdVeiculo AS IdVeiculo, ")
+		        .append("    TipoCombustivel.IdCombustivel AS IdCombustivel, ")
+		        .append("    TipoCombustivel.NomeCombustivel AS NomeCombustivel, ")
+		        .append("    QualidadeCombustivel.IdQualidade AS IdQualidade, ")
+		        .append("    Cliente.IdCliente AS IdCliente, ")
+		        .append("    Cliente.NomeCliente AS NomeCliente, ")
+		        .append("    Abastecimento.DataHora AS DataHora ")
+		        .append("FROM ")
+		        .append("    ford.Abastecimento Abastecimento ")
+		        .append("INNER JOIN ford.Posto Posto ")
+		        .append("        ON Abastecimento.IdPosto = Posto.IdPosto ")
+		        .append("INNER JOIN ford.Veiculo Veiculo ")
+		        .append("        ON Abastecimento.IdVeiculo = Veiculo.IdVeiculo ")
+		        .append("INNER JOIN ford.TipoCombustivel TipoCombustivel ")
+		        .append("        ON Abastecimento.IdCombustivel = TipoCombustivel.IdCombustivel ")
+		        .append("INNER JOIN ford.QualidadeCombustivel QualidadeCombustivel ")
+		        .append("        ON Abastecimento.IdQualidade = QualidadeCombustivel.IdQualidade ")
+		        .append("INNER JOIN ford.Cliente Cliente ")
+		        .append("        ON Veiculo.IdCliente = Cliente.IdCliente");
+
+    	String query = queryBuilder.toString();
+        
+        List<ObjectNode> jsonList = findJsonResults(query);
+        
+        return jsonList.stream()
+                       .map(json -> objectMapper.convertValue(json, AbastecimentoProjection.class))
+                       .collect(Collectors.toList());
+    }
+
 
     private List<ObjectNode> findJsonResults(String query) throws BigQuerySearchException {
         BigQuery bigquery = createBigQueryClient();

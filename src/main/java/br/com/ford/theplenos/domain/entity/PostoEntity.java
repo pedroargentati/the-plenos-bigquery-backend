@@ -1,5 +1,7 @@
 package br.com.ford.theplenos.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import br.com.ford.theplenos.domain.model.PostoModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,24 +16,31 @@ public class PostoEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonProperty("IdPosto")
 	private Long idPosto;
 	
 	@Column(name = "nomePosto")
+	@JsonProperty("NomePosto")
 	private String nomePosto;
 	
 	@Column(name = "rua")
+	@JsonProperty("Rua")
 	private String rua;
 	
 	@Column(name = "bairro")
+	@JsonProperty("Bairro")
 	private String bairro;
 	
 	@Column(name = "cidade")
+	@JsonProperty("Cidade")
 	private String cidade;
 	
 	@Column(name = "estado")
+	@JsonProperty("Estado")
 	private String estado;
 	
 	@Column(name = "cep")
+	@JsonProperty("CEP")
 	private String cep;
 	
 	public PostoEntity() {}

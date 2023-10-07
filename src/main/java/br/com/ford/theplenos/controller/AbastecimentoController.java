@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ford.theplenos.controller.exception.RecordNotFoundException;
 import br.com.ford.theplenos.domain.entity.AbastecimentoEntity;
+import br.com.ford.theplenos.domain.projection.AbastecimentoProjection;
 import br.com.ford.theplenos.service.dao.BigQueryDao;
 
 @RestController
@@ -19,6 +20,9 @@ public class AbastecimentoController {
 
 	@Autowired
 	private BigQueryDao<AbastecimentoEntity> abastecimentoEntityDao;
+	
+	@Autowired
+	private BigQueryDao<AbastecimentoProjection> abastecimentoProjectionDao;
 	
 	@GetMapping(value = "/abastecimento")
 	public ResponseEntity<List<AbastecimentoEntity>> findAllCustomer() {
@@ -30,5 +34,17 @@ public class AbastecimentoController {
 	    
 	    return new ResponseEntity<List<AbastecimentoEntity>>(abastecimentos, HttpStatus.OK);
 	}
+	
+	@GetMapping(value = "/abastecimentos-detalhados")
+	public ResponseEntity<List<AbastecimentoProjection>> findAllAbastecimentosWithDetails() {
+	    List<AbastecimentoProjection> result = abastecimentoProjectionDao.findAllAbastecimentosWithDetails();
+	    
+	    if (result.isEmpty()) {
+	        throw new RecordNotFoundException("Nenhum abastecimento encontrado.");
+	    }
+	    
+	    return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+
 	
 }
