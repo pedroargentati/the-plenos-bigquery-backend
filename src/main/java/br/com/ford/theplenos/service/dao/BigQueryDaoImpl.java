@@ -52,7 +52,7 @@ public class BigQueryDaoImpl<T> implements BigQueryDao<T> {
 
         try {
             queryJob = queryJob.waitFor();
-            handleJobErrors(queryJob);
+            this.handleJobErrors(queryJob);
             final TableResult result = queryJob.getQueryResults();
             return convertTableResultToJsonList(result);
         } catch (InterruptedException ex) {
@@ -92,6 +92,7 @@ public class BigQueryDaoImpl<T> implements BigQueryDao<T> {
     private List<ObjectNode> convertTableResultToJsonList(TableResult result) {
         final List<String> fieldList = result.getSchema().getFields().stream().map(Field::getName).collect(Collectors.toList());
         List<ObjectNode> jsonList = new ArrayList<>();
+
         for (FieldValueList row : result.iterateAll()) {
             ObjectNode jsonObject = objectMapper.createObjectNode();
             fieldList.forEach(field -> jsonObject.put(field, row.get(field).getStringValue()));
