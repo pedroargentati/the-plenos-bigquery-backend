@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import br.com.ford.theplenos.domain.entity.AbastecimentoEntity;
 import br.com.ford.theplenos.domain.entity.ClienteEntity;
 import br.com.ford.theplenos.domain.entity.TipoCombustivelEntity;
 import br.com.ford.theplenos.domain.entity.VeiculoEntity;
@@ -29,5 +30,10 @@ public class BigQueryConfig {
 	@Bean
 	public BigQueryDao<TipoCombustivelEntity> tipoCombustivelEntityDao() {
 		return new BigQueryDaoImpl<>(properties, TipoCombustivelEntity.class);
+	}
+	
+	@Bean
+	public BigQueryDao<AbastecimentoEntity> abastecimentoEntityDao() {
+		return new BigQueryDaoImpl<>(properties, AbastecimentoEntity.class);
 	}
 }

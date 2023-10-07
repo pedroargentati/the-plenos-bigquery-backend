@@ -1,5 +1,7 @@
 package br.com.ford.theplenos.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import br.com.ford.theplenos.domain.model.VeiculoModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,12 +16,15 @@ public class VeiculoEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonProperty("IdVeiculo")
 	private Long idVeiculo;
 	
 	@Column(name = "placaVeiculo")
+	@JsonProperty("PlacaVeiculo")
 	private String placaVeiculo;
 
 	@Column(name = "idCliente")
+	@JsonProperty("IdCliente")
 	private Long idCliente;
 	
 	public VeiculoEntity() {}

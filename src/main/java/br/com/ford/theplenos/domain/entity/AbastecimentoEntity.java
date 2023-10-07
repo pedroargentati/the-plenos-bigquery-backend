@@ -2,6 +2,8 @@ package br.com.ford.theplenos.domain.entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import br.com.ford.theplenos.domain.model.AbastecimentoModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,18 +33,23 @@ public class AbastecimentoEntity {
 	private Long idAbastecimento;
 
 	@Column(name = "idPosto")
+	@JsonProperty("IdPosto")
 	private Long idPosto;
 
 	@Column(name = "idVeiculo")
+	@JsonProperty("IdVeiculo")
 	private Long idVeiculo;
 
 	@Column(name = "idCombustivel")
+	@JsonProperty("IdCombustivel")
 	private Long idCombustivel;
 
 	@Column(name = "idQualidadeCombustivel")
+	@JsonProperty("IdQualidadeCombustivel")
 	private Long idQualidadeCombustivel;
 
 	@Column(name = "dataHora")
+	@JsonProperty("DataHora")
 	private Date dataHora;
 
 
