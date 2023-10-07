@@ -22,13 +22,13 @@ public class VeiculoController {
 	
 	@GetMapping(value = "/veiculo")
 	public ResponseEntity<List<VeiculoEntity>> findAllCustomer() {
-	    List<VeiculoEntity> tiposCombustivel = veiculoEntityDao.findAll();
+	    List<VeiculoEntity> veiculos = veiculoEntityDao.findAll();
 	    
-	    if (tiposCombustivel.isEmpty()) {
+	    if (veiculos.isEmpty()) {
 	        throw new RecordNotFoundException("Nenhum veículo encontrado.");
 	    }
 	    
-	    return new ResponseEntity<List<VeiculoEntity>>(tiposCombustivel, HttpStatus.OK);
+	    return new ResponseEntity<List<VeiculoEntity>>(veiculos, HttpStatus.OK);
 	}
 
 	

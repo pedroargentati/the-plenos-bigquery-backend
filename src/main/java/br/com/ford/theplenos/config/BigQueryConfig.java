@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import br.com.ford.theplenos.domain.entity.AbastecimentoEntity;
 import br.com.ford.theplenos.domain.entity.ClienteEntity;
 import br.com.ford.theplenos.domain.entity.PostoEntity;
+import br.com.ford.theplenos.domain.entity.QualidadeCombustivelEntity;
 import br.com.ford.theplenos.domain.entity.TipoCombustivelEntity;
 import br.com.ford.theplenos.domain.entity.VeiculoEntity;
 import br.com.ford.theplenos.service.dao.BigQueryDao;
@@ -41,5 +42,10 @@ public class BigQueryConfig {
 	@Bean
 	public BigQueryDao<PostoEntity> postoEntityDao() {
 		return new BigQueryDaoImpl<>(properties, PostoEntity.class);
+	}
+	
+	@Bean
+	public BigQueryDao<QualidadeCombustivelEntity> qualidadeCombustivelEntityDao() {
+		return new BigQueryDaoImpl<>(properties, QualidadeCombustivelEntity.class);
 	}
 }
