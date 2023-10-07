@@ -33,7 +33,7 @@ public class BigQueryService {
 		this.properties = properties;
 	}
 
-	public List<ObjectNode> filAllAbastecimento() throws BigQuerySearchException {
+	public List<ObjectNode> findAllAbastecimento() throws BigQuerySearchException {
 		BigQuery bigquery;
 
 		try {

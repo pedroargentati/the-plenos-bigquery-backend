@@ -1,5 +1,7 @@
 package br.com.ford.theplenos.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import br.com.ford.theplenos.domain.model.ClienteModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,9 +16,12 @@ public class ClienteEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "IdCliente")
+	@JsonProperty("IdCliente")
 	private Long idCliente;
 	
 	@Column(name = "nomeCliente")
+	@JsonProperty("NomeCliente")
 	private String nomeCliente;
 	
 	public ClienteEntity() {}

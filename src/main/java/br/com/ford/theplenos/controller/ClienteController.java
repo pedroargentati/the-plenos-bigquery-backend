@@ -10,23 +10,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ford.theplenos.domain.entity.ClienteEntity;
-import br.com.ford.theplenos.domain.entity.VeiculoEntity;
-import br.com.ford.theplenos.service.BigQueryService;
 import br.com.ford.theplenos.service.dao.BigQueryDao;
 
 @RestController
 @RequestMapping("/v2")
-public class BigQueryController {
+public class ClienteController {
 
-	@Autowired
-	private BigQueryService service;
-	
 	@Autowired
 	private BigQueryDao<ClienteEntity> clienteEntityDao;
-
-	@GetMapping(value = "/abastecimento")
+	
+	@GetMapping(value = "/cliente")
 	public ResponseEntity<List<ClienteEntity>> teste() {
-		List<ClienteEntity> entities = clienteEntityDao.findAll();
-		return new ResponseEntity<>(entities, HttpStatus.OK);
+		List<ClienteEntity> clientes = clienteEntityDao.findAll();
+		
+		return new ResponseEntity<List<ClienteEntity>>(clientes, HttpStatus.OK);
 	}
+	
 }
