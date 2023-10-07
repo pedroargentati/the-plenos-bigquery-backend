@@ -21,9 +21,9 @@ public class TipoCombustivelController {
 	
 	@GetMapping(value = "/tipocombustivel")
 	public ResponseEntity<List<TipoCombustivelEntity>> findAllCustomer() {
-		List<TipoCombustivelEntity> clientes = tipoCombustivelEntityDao.findAll();
+		List<TipoCombustivelEntity> tiposCombustivel = tipoCombustivelEntityDao.findAll();
 		
-		return new ResponseEntity<List<TipoCombustivelEntity>>(clientes, HttpStatus.OK);
+		return new ResponseEntity<List<TipoCombustivelEntity>>(tiposCombustivel, HttpStatus.OK);
 	}
 	
 }
