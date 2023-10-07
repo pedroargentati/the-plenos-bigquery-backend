@@ -20,7 +20,7 @@ public class ClienteController {
 	private BigQueryDao<ClienteEntity> clienteEntityDao;
 	
 	@GetMapping(value = "/cliente")
-	public ResponseEntity<List<ClienteEntity>> teste() {
+	public ResponseEntity<List<ClienteEntity>> findAllCustomer() {
 		List<ClienteEntity> clientes = clienteEntityDao.findAll();
 		
 		return new ResponseEntity<List<ClienteEntity>>(clientes, HttpStatus.OK);
