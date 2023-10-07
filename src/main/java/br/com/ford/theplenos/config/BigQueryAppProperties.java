@@ -12,8 +12,8 @@ import lombok.Data;
 @ConfigurationProperties(prefix = "br.com.ford.theplenos")
 public class BigQueryAppProperties {
 
-    private String credentialsPath = "resources";
-    private String credientalsName = "fordfuel-0b5e12e3cf53.json";
-    private String projectId = "fordfuel";
+	private String credentialsPath = "resources";
+	private String credientalsName = "fordfuel-0b5e12e3cf53.json";
+	private String projectId = "fordfuel";
 
 }

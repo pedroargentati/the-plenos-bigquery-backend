@@ -14,16 +14,16 @@ import br.com.ford.theplenos.service.BigQueryService;
 
 @RestController
 public class BigQueryController {
-	
+
 	@Autowired
 	private BigQueryService service;
 
 	@GetMapping(value = "/v1/abastecimento")
 	public ResponseEntity<List<ObjectNode>> obterListaAbastecimentos() {
-	    List<ObjectNode> resultList;
-	    resultList = service.filAllAbastecimento();
-	    System.out.println(resultList);
-	    return new ResponseEntity<>(resultList, HttpStatus.OK);
+		List<ObjectNode> resultList;
+		resultList = service.filAllAbastecimento();
+		System.out.println(resultList);
+		return new ResponseEntity<>(resultList, HttpStatus.OK);
 	}
 
 }
