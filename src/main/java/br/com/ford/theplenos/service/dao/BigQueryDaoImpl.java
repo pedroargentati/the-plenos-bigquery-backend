@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.cloud.bigquery.BigQuery;
@@ -25,10 +28,11 @@ public class BigQueryDaoImpl<T> implements BigQueryDao<T> {
 
     private final BigQueryAppProperties properties;
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private static final String SCHEMA_NAME = "ford";
-
     private final Class<T> type;
 
+    private static final Logger logger = LoggerFactory.getLogger(BigQueryDaoImpl.class);
+
+    
     public BigQueryDaoImpl(BigQueryAppProperties properties, Class<T> type) {
         this.properties = properties;
         this.type = type;
@@ -43,6 +47,8 @@ public class BigQueryDaoImpl<T> implements BigQueryDao<T> {
     }
     
     public List<AbastecimentoProjection> findAllAbastecimentosWithDetails() throws BigQuerySearchException {
+    	logger.info("Iniciando método findAllAbastecimentosWithDetails()");
+
     	StringBuilder queryBuilder = new StringBuilder();
     	queryBuilder.append("SELECT ")
 		        .append("    Abastecimento.IdAbastecimento AS IdAbastecimento, ")
@@ -74,9 +80,11 @@ public class BigQueryDaoImpl<T> implements BigQueryDao<T> {
 		        .append("        ON Veiculo.IdCliente = Cliente.IdCliente");
 
     	String query = queryBuilder.toString();
+    	logger.info("Consulta SQL gerada: {}", query);
         
         List<ObjectNode> jsonList = findJsonResults(query);
         
+        logger.info("Finalizando método findAllAbastecimentosWithDetails()");
         return jsonList.stream()
                        .map(json -> objectMapper.convertValue(json, AbastecimentoProjection.class))
                        .collect(Collectors.toList());
