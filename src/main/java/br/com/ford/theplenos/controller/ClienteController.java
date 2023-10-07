@@ -13,7 +13,7 @@ import br.com.ford.theplenos.domain.entity.ClienteEntity;
 import br.com.ford.theplenos.service.dao.BigQueryDao;
 
 @RestController
-@RequestMapping("/v2")
+@RequestMapping("/v2/fordfuel/")
 public class ClienteController {
 
 	@Autowired

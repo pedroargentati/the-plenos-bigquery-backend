@@ -15,7 +15,7 @@ import br.com.ford.theplenos.service.BigQueryService;
 import br.com.ford.theplenos.service.dao.BigQueryDao;
 
 @RestController
-@RequestMapping("/v2")
+@RequestMapping("/v1")
 public class BigQueryController {
 
 	@Autowired
