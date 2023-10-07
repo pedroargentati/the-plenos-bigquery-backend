@@ -1,5 +1,7 @@
 package br.com.ford.theplenos.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import br.com.ford.theplenos.domain.model.TipoCombistivelModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,22 +12,24 @@ import jakarta.persistence.Table;
 
 @Entity(name = "TipoCombistivel")
 @Table(name = "tipocombistivel")
-public class TipoCombistivelEntity {
+public class TipoCombustivelEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonProperty("IdCombustivel")
 	private Long idCombustivel;
 	
 	@Column(name = "nomeCombustivel")
+	@JsonProperty("NomeCombustivel")
 	private String nomeCombustivel;
 
-	public TipoCombistivelEntity() {}
+	public TipoCombustivelEntity() {}
 	
-	public TipoCombistivelEntity(TipoCombistivelModel model) {
+	public TipoCombustivelEntity(TipoCombistivelModel model) {
 		this(model.getIdCombustivel(), model.getNomeCombustivel());
 	}
 
-	public TipoCombistivelEntity(Long idCombustivel, String nomeCombustivel) {
+	public TipoCombustivelEntity(Long idCombustivel, String nomeCombustivel) {
 		super();
 		this.idCombustivel = idCombustivel;
 		this.nomeCombustivel = nomeCombustivel;
