@@ -1,15 +1,20 @@
 package br.com.ford.theplenos.service.dao;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.bigquery.BigQuery;
 import com.google.cloud.bigquery.BigQueryOptions;
 import com.google.cloud.bigquery.Field;
@@ -22,14 +27,21 @@ import com.google.cloud.bigquery.TableResult;
 import br.com.ford.theplenos.config.BigQueryAppProperties;
 import br.com.ford.theplenos.domain.projection.AbastecimentoProjection;
 import br.com.ford.theplenos.exception.BigQuerySearchException;
-import br.com.ford.theplenos.service.utility.GoogleCredentialsUtility;
 
 public class BigQueryDaoImpl<T> implements BigQueryDao<T> {
 
     private final BigQueryAppProperties properties;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final Class<T> type;
+    private final RestTemplate restTemplate = new RestTemplate();
 
+    @Value("${com.springapp.credentialsPath}")
+    private String credentialsPath;
+    @Value("${com.springapp.credientalsName}")
+    private String credientalsName;
+    @Value("${com.springapp.projectId}")
+    private String projectId;
+    
     private static final Logger logger = LoggerFactory.getLogger(BigQueryDaoImpl.class);
 
     public BigQueryDaoImpl(BigQueryAppProperties properties, Class<T> type) {
@@ -44,7 +56,6 @@ public class BigQueryDaoImpl<T> implements BigQueryDao<T> {
             .map(json -> objectMapper.convertValue(json, type))
             .collect(Collectors.toList());
     }
-    
     public List<AbastecimentoProjection> findAllAbastecimentosWithDetails() throws BigQuerySearchException {
     	logger.info("Iniciando método findAllAbastecimentosWithDetails()");
 
@@ -110,11 +121,22 @@ public class BigQueryDaoImpl<T> implements BigQueryDao<T> {
         }
     }
 
+    private GoogleCredentials getCredentialsFromPublicLink() throws IOException {
+        String credentialsUrl = "https://storage.googleapis.com/fordfuel.appspot.com/fordfuel-0b5e12e3cf53.json";
+        byte[] content = restTemplate.getForObject(credentialsUrl, byte[].class);
+        System.out.println(new String(content, StandardCharsets.UTF_8));
+        try (ByteArrayInputStream byteArrayStream = new ByteArrayInputStream(content)) {
+            return GoogleCredentials.fromStream(byteArrayStream);
+        }
+    }
+
     private BigQuery createBigQueryClient() throws BigQuerySearchException {
         try {
+        	System.out.println(getCredentialsFromPublicLink());
+            GoogleCredentials credentials = getCredentialsFromPublicLink();
             return BigQueryOptions.newBuilder()
                 .setProjectId(properties.getProjectId())
-                .setCredentials(GoogleCredentialsUtility.getCreds(properties.getCredentialsPath(), properties.getCredientalsName()))
+                .setCredentials(credentials)
                 .build()
                 .getService();
         } catch (IOException ex) {
@@ -129,7 +151,7 @@ public class BigQueryDaoImpl<T> implements BigQueryDao<T> {
             throw new BigQuerySearchException(job.getStatus().getError().toString());
         }
     }
-    
+
     private String resolveTableName() {
         String simpleName = type.getSimpleName();
         if (simpleName.endsWith("Entity")) {
@@ -138,7 +160,6 @@ public class BigQueryDaoImpl<T> implements BigQueryDao<T> {
         return simpleName;
     }
 
-    
     private List<ObjectNode> convertTableResultToJsonList(TableResult result) {
         final List<String> fieldList = result.getSchema().getFields().stream().map(Field::getName).collect(Collectors.toList());
         List<ObjectNode> jsonList = new ArrayList<>();

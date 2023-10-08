@@ -3,6 +3,7 @@ package br.com.ford.theplenos.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 
 import br.com.ford.theplenos.domain.entity.AbastecimentoEntity;
 import br.com.ford.theplenos.domain.entity.ClienteEntity;
@@ -19,6 +20,11 @@ public class BigQueryConfig {
 
 	@Autowired
 	private BigQueryAppProperties properties;
+	
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 
 	@Bean
 	public BigQueryDao<VeiculoEntity> veiculoEntityDao() {
