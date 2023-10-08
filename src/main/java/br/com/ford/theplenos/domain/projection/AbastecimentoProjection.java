@@ -60,4 +60,14 @@ public class AbastecimentoProjection {
 	
 	@JsonProperty("NomeCombustivel")
 	private String nomeCombustivel;
+	
+	@JsonProperty("Latitude")
+	private String latitude;
+	
+	@JsonProperty("Longitude")
+	private String longitude;
+	
+	@JsonProperty("NomeQualidade")
+	private String nomeQualidade;
+	
 }

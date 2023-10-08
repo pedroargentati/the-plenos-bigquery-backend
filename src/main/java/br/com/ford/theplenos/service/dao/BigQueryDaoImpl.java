@@ -62,6 +62,8 @@ public class BigQueryDaoImpl<T> implements BigQueryDao<T> {
     	StringBuilder queryBuilder = new StringBuilder();
     	queryBuilder.append("SELECT ")
 		        .append("    Abastecimento.IdAbastecimento AS IdAbastecimento, ")
+		        .append("    Posto.Latitude AS Latitude, ")
+		        .append("    Posto.Longitude AS Longitude, ")
 		        .append("    Posto.IdPosto AS IdPosto, ")
 		        .append("    Posto.NomePosto AS NomePosto, ")
 		        .append("    Posto.Rua AS Rua, ")
@@ -73,6 +75,7 @@ public class BigQueryDaoImpl<T> implements BigQueryDao<T> {
 		        .append("    TipoCombustivel.IdCombustivel AS IdCombustivel, ")
 		        .append("    TipoCombustivel.NomeCombustivel AS NomeCombustivel, ")
 		        .append("    QualidadeCombustivel.IdQualidade AS IdQualidade, ")
+		        .append("    QualidadeCombustivel.NomeQualidade AS NomeQualidade, ")
 		        .append("    Cliente.IdCliente AS IdCliente, ")
 		        .append("    Cliente.NomeCliente AS NomeCliente, ")
 		        .append("    Abastecimento.DataHora AS DataHora ")
@@ -106,7 +109,7 @@ public class BigQueryDaoImpl<T> implements BigQueryDao<T> {
         
         final QueryJobConfiguration queryConfig = QueryJobConfiguration
             .newBuilder(query)
-            .setUseLegacySql(true)
+            .setUseLegacySql(false)
             .build();
 
         Job queryJob = bigquery.create(JobInfo.of(queryConfig));
